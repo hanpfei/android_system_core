@@ -345,7 +345,7 @@ void handle_packet(apacket *p, atransport *t)
     case A_AUTH:
         if (p->msg.arg0 == ADB_AUTH_TOKEN) {
             t->connection_state = kCsUnauthorized;
-            t->key = adb_auth_nextkey(t->key);
+            //t->key = adb_auth_nextkey(t->key);
             if (t->key) {
                 send_auth_response(p->data, p->msg.data_length, t);
             } else {
@@ -604,7 +604,7 @@ static unsigned __stdcall _redirect_stderr_thread(HANDLE h) {
 }
 
 #endif
-
+extern int gListenAll;
 int launch_server(int server_port)
 {
 #if defined(_WIN32)
@@ -861,7 +861,13 @@ int launch_server(int server_port)
         char reply_fd[30];
         snprintf(reply_fd, sizeof(reply_fd), "%d", fd[1]);
         // child process
-        int result = execl(path, "adb", "-P", str_port, "fork-server", "server", "--reply-fd", reply_fd, NULL);
+        int result;
+        if (gListenAll) {
+            result = execl(path, "adb", "-a", "-P", str_port, "fork-server", "server", "--reply-fd", reply_fd, NULL);
+        } else {
+            result = execl(path, "adb", "-P", str_port, "fork-server", "server", "--reply-fd", reply_fd, NULL);
+        }
+
         // this should not return
         fprintf(stderr, "OOPS! execl returned %d, errno: %d\n", result, errno);
     } else  {

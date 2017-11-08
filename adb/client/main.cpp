@@ -111,7 +111,7 @@ int adb_server_main(int is_daemon, int server_port, int ack_reply_fd) {
 
     usb_init();
     local_init(DEFAULT_ADB_LOCAL_TRANSPORT_PORT);
-    adb_auth_init();
+//    adb_auth_init();
 
     std::string error;
     std::string local_name = android::base::StringPrintf("tcp:%d", server_port);

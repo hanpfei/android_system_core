@@ -40,6 +40,8 @@
 #include <mutex>
 #endif
 
+#include <string.h>
+
 #include "android-base/macros.h"
 #include "android-base/strings.h"
 #include "cutils/threads.h"
