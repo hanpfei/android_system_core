@@ -345,7 +345,7 @@ void handle_packet(apacket *p, atransport *t)
     case A_AUTH:
         if (p->msg.arg0 == ADB_AUTH_TOKEN) {
             t->connection_state = kCsUnauthorized;
-            //t->key = adb_auth_nextkey(t->key);
+            t->key = adb_auth_nextkey(t->key);
             if (t->key) {
                 send_auth_response(p->data, p->msg.data_length, t);
             } else {

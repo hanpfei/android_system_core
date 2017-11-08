@@ -1900,8 +1900,7 @@ int adb_commandline(int argc, const char **argv) {
         if (argc < 2) return usage();
         // Always print key generation information for keygen command.
         adb_trace_enable(AUTH);
-        return 0;
-        // return adb_auth_keygen(argv[1]);
+        return adb_auth_keygen(argv[1]);
     }
     else if (!strcmp(argv[0], "jdwp")) {
         return adb_connect_command("jdwp");
