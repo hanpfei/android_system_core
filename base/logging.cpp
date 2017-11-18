@@ -70,6 +70,7 @@
 #include <windows.h>
 #endif
 
+#include <string.h>
 #if defined(_WIN32)
 typedef uint32_t thread_id;
 #else

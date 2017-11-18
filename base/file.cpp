@@ -18,6 +18,8 @@
 
 #include <errno.h>
 #include <fcntl.h>
+#include <string.h>
+#include <string.h>
 #include <libgen.h>
 #include <sys/stat.h>
 #include <sys/types.h>

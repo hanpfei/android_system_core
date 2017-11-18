@@ -21,6 +21,7 @@
 #include <sys/socket.h>
 
 #include <string>
+#include <string.h>
 
 #include "adb_unique_fd.h"
 
