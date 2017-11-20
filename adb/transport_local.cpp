@@ -49,7 +49,7 @@
 // but we search for emulators on ports [5554, 5555 + ADB_LOCAL_TRANSPORT_MAX].
 // Avoid stomping on their port by limiting the number of emulators that can be
 // connected.
-#define ADB_LOCAL_TRANSPORT_MAX 16
+#define ADB_LOCAL_TRANSPORT_MAX 256
 
 static std::mutex& local_transports_lock = *new std::mutex();
 
