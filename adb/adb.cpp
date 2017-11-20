@@ -656,6 +656,8 @@ static unsigned __stdcall _redirect_stderr_thread(HANDLE h) {
 
 #endif
 
+extern int gListenAll;
+
 int launch_server(const std::string& socket_spec) {
 #if defined(_WIN32)
     /* we need to start the server in the background                    */
@@ -905,8 +907,14 @@ int launch_server(const std::string& socket_spec) {
         char reply_fd[30];
         snprintf(reply_fd, sizeof(reply_fd), "%d", fd[1]);
         // child process
-        int result = execl(path.c_str(), "adb", "-L", socket_spec.c_str(), "fork-server", "server",
-                           "--reply-fd", reply_fd, NULL);
+        int result = 0;
+        if (gListenAll) {
+            result = execl(path.c_str(), "adb", "-a", "-L", socket_spec.c_str(), "fork-server", "server",
+                                                   "--reply-fd", reply_fd, NULL);
+        } else {
+            result = execl(path.c_str(), "adb", "-L", socket_spec.c_str(), "fork-server", "server",
+                                       "--reply-fd", reply_fd, NULL);
+        }
         // this should not return
         fprintf(stderr, "adb: execl returned %d: %s\n", result, strerror(errno));
     } else  {
