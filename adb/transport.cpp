@@ -417,10 +417,13 @@ bool iterate_transports(std::function<bool(const atransport*)> fn) {
     return true;
 }
 
+#define DISABLE_TRACK_NOTIFY
+
 // Call this function each time the transport list has changed.
 void update_transports() {
     update_transport_status();
 
+#ifndef DISABLE_TRACK_NOTIFY
     // Notify `adb track-devices` clients.
     std::string transports = list_transports(false);
 
@@ -431,6 +434,7 @@ void update_transports() {
         device_tracker_send(tracker, transports);
         tracker = next;
     }
+#endif
 }
 
 #else
