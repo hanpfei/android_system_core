@@ -371,6 +371,8 @@ static int device_tracker_send(device_tracker* tracker, const std::string& strin
     return peer->enqueue(peer, p);
 }
 
+#define DISABLE_TRACK_NOTIFY
+
 static void device_tracker_ready(asocket* socket) {
     device_tracker* tracker = reinterpret_cast<device_tracker*>(socket);
 
@@ -379,8 +381,10 @@ static void device_tracker_ready(asocket* socket) {
     if (tracker->update_needed > 0) {
         tracker->update_needed = 0;
 
+#ifndef DISABLE_TRACK_NOTIFY
         std::string transports = list_transports(false);
         device_tracker_send(tracker, transports);
+#endif
     }
 }
 
@@ -416,8 +420,6 @@ bool iterate_transports(std::function<bool(const atransport*)> fn) {
     }
     return true;
 }
-
-#define DISABLE_TRACK_NOTIFY
 
 // Call this function each time the transport list has changed.
 void update_transports() {
